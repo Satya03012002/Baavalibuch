@@ -18,6 +18,8 @@ export const signIn = async(req,res)=>{
             }else{
                 return res.status(205).json({message:"user account already exist"});
             }
+        }else{
+            return res.status(401).json({message:"invalid details"}); 
         }
 
 

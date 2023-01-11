@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
+import validator from 'validator'
 
 function Page1() {
     const navigate = useNavigate();
@@ -17,11 +18,12 @@ function Page1() {
       });
     
       const validateEmail = (email) => {
-        const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if(email.match(mailformat)){
-          return true;
-        }
-        else return false;
+        if (validator.isEmail(email)) {
+            console.log("true")
+            return true
+          } else {
+            return false
+          }
     
       }
    
@@ -47,20 +49,28 @@ function Page1() {
     
     const handleSubmit = async(e)=>{
       e.preventDefault();
-      if(!validateEmail(e.target.value)){
+      if(validateEmail(values.email)){
         console.log("emailformat checked")
+        
       }else{
         alert("invalid email")
+        return
       }
       
       try{
       const data = await sendRequest();
       console.log("userId", data.data._id);
-      await localStorage.setItem("userId", data.data._id)
-      navigate("/data")
+      if(data){
+        console.log("data -->" ,data)
+        await localStorage.setItem("userId", data.data._id)
+        navigate("/data")
+      }else{
+        alert("invalid input")
+      }
+    
     
       }catch(err){
-        alert(err)
+        alert("invalid details")
       }
     }
     
