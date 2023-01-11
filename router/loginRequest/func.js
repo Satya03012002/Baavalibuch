@@ -27,9 +27,11 @@ export const signIn = async(req,res)=>{
     
 
 }
-export const getdata = async()=>{
+export const getdata = async(req,res)=>{
     const id = req.params.id;
+    console.log(id)
     try{
+
         const data = await LoginData.findById(id)
         if(data){
             const {email,text} = data

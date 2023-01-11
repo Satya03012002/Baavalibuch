@@ -4,14 +4,24 @@ import Card from 'react-bootstrap/Card';
 
 function Page2() {
 
+    // const[userData, setuserData] = useState({
+    //     email:"",
+    //     text:""
+    // })
+    
     const[userData, setuserData] = useState({})
-
+    const id =  localStorage.getItem("userId")
     const sendRequest= async()=>{
         try{
-            const id =  localStorage.getItem("userId")
+            
+            
+            console.log("id", id)
+
           const res = await axios.get(`http://localhost:5000/signin/${id}`);
-          console.log("res", res);
+          
           const data = await res.data;
+         
+          
           return data;
       
         }catch(err){
@@ -19,16 +29,29 @@ function Page2() {
         }
       
       }
+  
 
+     
     useEffect (()=>{
-        sendRequest.then((data) => setuserData(data)).catch((err)=>alert(err))
+        const subscribe = ()=>{
+            
+                sendRequest().then((data)=>setuserData(data))
+                // console.log("data--->", data);
+                //  setuserData([...data])
+                console.log("userData", userData)
+           
+          
+        }
+        return subscribe();
+        
+     
      
 
-    },[])
+    },[id])
   return (
       <>
-          <Card>
-              <Card.Header> <Card.Title>{` Hello  ${userData.email}`}</Card.Title></Card.Header>
+          <Card style={{ width: '18rem', margin:'auto' }}>
+              <Card.Header> <Card.Title>{`   ${userData.email}`}</Card.Title></Card.Header>
               <Card.Body>
 
                   <Card.Text>

@@ -4,8 +4,10 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 function Page1() {
+    const navigate = useNavigate();
 
     const [values, setValues] = useState({
         email: "",
@@ -32,7 +34,7 @@ function Page1() {
     const sendRequest= async()=>{
       try{
         const res = await axios.post(`http://localhost:5000/signin`, values)
-        console.log("res", res);
+        
         const data = await res.data;
         return data;
     
@@ -45,16 +47,17 @@ function Page1() {
     
     const handleSubmit = async(e)=>{
       e.preventDefault();
-      if(validateEmail(e.target.value)){
+      if(!validateEmail(e.target.value)){
         console.log("emailformat checked")
       }else{
         alert("invalid email")
       }
-      console.log(values)
+      
       try{
       const data = await sendRequest();
-      console.log(data);
-      localStorage.setItem("userId", data.data._id)
+      console.log("userId", data.data._id);
+      await localStorage.setItem("userId", data.data._id)
+      navigate("/data")
     
       }catch(err){
         alert(err)
