@@ -4,7 +4,7 @@ import Page1 from './MyComponents/Page1';
 import {  Routes, Route } from "react-router-dom";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-//
+
 
 
 function App() {
